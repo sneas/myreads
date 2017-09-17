@@ -14,7 +14,7 @@ class BookMenu extends Component {
   render() {
     return (
         <select value={this.props.book.shelf} onChange={event => this.updateShelf(event.target.value)}>
-          <option value="none" disabled>Move to...</option>
+          <option disabled>Move to...</option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
           <option value="read">Read</option>
