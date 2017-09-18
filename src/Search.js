@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import debounce from 'debounce'
 import BooksGrid from './BooksGrid'
+import NProgress from 'nprogress'
 
 class Search extends Component {
   static propTypes = {
@@ -18,12 +19,14 @@ class Search extends Component {
   }
 
   search(query) {
+    NProgress.start();
     BooksAPI.search(query).then(result => {
       this.setState({
         books: Array.isArray(result) ? result : [],
         isSearching: false
       });
-    });
+      NProgress.done()
+    })
   }
 
   debouncedSearch = debounce(this.search, 500);

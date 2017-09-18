@@ -4,6 +4,8 @@ import './App.css'
 import { Route } from 'react-router-dom'
 import Shelves from './Shelves'
 import Search from './Search'
+import 'nprogress/nprogress.css'
+import NProgress from 'nprogress'
 
 class BooksApp extends React.Component {
   state = {
@@ -11,17 +13,23 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchAll()
+    NProgress.start();
+    this.fetchAll().then(() => {
+      NProgress.done();
+    })
   }
 
   updateBook(bookToUpdate, shelf) {
-    BooksAPI.update(bookToUpdate, shelf).then(() => {
-      this.fetchAll()
+    NProgress.start()
+    return BooksAPI.update(bookToUpdate, shelf).then(() => {
+      this.fetchAll().then(() => {
+        NProgress.done();
+      })
     })
   }
 
   fetchAll() {
-    BooksAPI.getAll().then((books) => {
+    return BooksAPI.getAll().then((books) => {
       this.setState({
         books
       })
